@@ -5,6 +5,7 @@ __copyright__ = "Copyright ⓒ 2016, All rights reserved."
 __email__ = "egaoneko@naver.com"
 
 
+# Task 1.6.6
 def makeInverseIndex(strlist):
     dic = defaultdict(set)
 
@@ -15,6 +16,7 @@ def makeInverseIndex(strlist):
     return dic
 
 
+# Task 1.6.7
 def orSearch(inverseIndex, query):
     document = set()
 
@@ -24,6 +26,7 @@ def orSearch(inverseIndex, query):
     return document
 
 
+# Task 1.6.8
 def andSearch(inverseIndex, query):
     empty = True
     document = set()
@@ -40,7 +43,7 @@ def andSearch(inverseIndex, query):
 
 if __name__ == '__main__':
     query = ['moving', 'this', 'home', 'old', 'mythic']
-    with open('stories_small.txt', 'r') as f:
+    with open('resource/stories_small.txt', 'r') as f:
         lines = f.readlines()
         inverseIndex = makeInverseIndex(lines)
         orSearchResult = orSearch(inverseIndex, query)
