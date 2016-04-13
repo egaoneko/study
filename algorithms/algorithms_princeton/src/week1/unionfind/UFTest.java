@@ -21,7 +21,7 @@ public class UFTest {
 
     @BeforeClass
     public static void setup() throws FileNotFoundException {
-        String FILE_DIRECTORY = "src/week1/unionfind/source/";
+        final String FILE_DIRECTORY = "src/week1/unionfind/source/";
 
         Scanner sc = new Scanner(new FileInputStream(FILE_DIRECTORY + "tinyUF.txt"));
         N_TINY = sc.nextInt();
