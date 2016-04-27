@@ -72,6 +72,7 @@ target/
 
 # IDE
 .idea
+out/
 
 # Mac
 .DS_Store
