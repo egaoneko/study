@@ -116,7 +116,8 @@ def add(u, v):
     True
     """
     assert u.D == v.D
-    return Vec(u.D, {k: getitem(u, k) + getitem(v, k) for k in u.D})
+    return Vec(u.D, {k: u[k] + v[k] for k in u.f.keys() | v.f.keys()})
+    # return Vec(u.D, {k: getitem(u, k) + getitem(v, k) for k in u.D})
 
 
 def dot(u, v):
@@ -192,8 +193,6 @@ def neg(v):
     """
     return scalar_mul(v, -1)
 
-
-###############################################################################################################################
 
 class Vec:
     """
