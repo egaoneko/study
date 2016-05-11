@@ -29,6 +29,7 @@ public class ResizingArrayQueueOfStrings implements QueueOfStrings {
     public String dequeue() {
         String item = s[head];
         s[head++] = null;    // avoid loitering
+        N--;
         if (head == capacity) head = 0;
         if (N > 0 && N == capacity / 4) resize(capacity / 2);
         return item;
