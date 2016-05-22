@@ -235,11 +235,11 @@ def matrix_matrix_mul(A, B):
     """
     assert A.D[1] == B.D[0]
 
-    from ch5.resource.matutil import mat2rowdict, rowdict2mat
+    from ch5.resource.matutil import mat2rowdict, efficient_rowdict2mat
     row_dict = mat2rowdict(A)
     for key in row_dict.keys():
         row_dict[key] *= B
-    return rowdict2mat(row_dict)
+    return efficient_rowdict2mat(row_dict)
 
 
 class Mat:
