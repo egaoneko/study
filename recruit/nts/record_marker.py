@@ -2,10 +2,6 @@ import sys
 import random
 import unittest
 
-rl = lambda: sys.stdin.readline()
-
-
-# n = int(rl())
 
 def record_marker(n):
     nt_format = "NT{:05d}"
