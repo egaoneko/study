@@ -3783,5 +3783,5 @@ def _main(argv):
 if __name__ == '__main__':
     try:
         _main(sys.argv)
-    except Error(e):
+    except Error as e:
         print(e)

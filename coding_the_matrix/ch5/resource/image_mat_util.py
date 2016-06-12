@@ -11,8 +11,8 @@
     matrix represent the boundary of the pixel region
     """
 
-import ch5.mat
-import ch5.png
+from ch5 import mat
+from ch5.resource import png
 import numbers
 import collections
 import webbrowser
@@ -250,12 +250,12 @@ def mat2display(pts, colors, row_labels=('x', 'y', 'u'),
     hpath = _create_temp('.html')
     with open(hpath, 'w') as h:
         h.writelines(
-                ['<!DOCTYPE html>\n',
-                 '<head> <title>image</title> </head>\n',
-                 '<body>\n',
-                 '<svg height="%s" width="%s" xmlns="http://www.w3.org/2000/svg">\n' % (
+            ['<!DOCTYPE html>\n',
+             '<head> <title>image</title> </head>\n',
+             '<body>\n',
+             '<svg height="%s" width="%s" xmlns="http://www.w3.org/2000/svg">\n' % (
                  (ymax - ymin) * yscale, (xmax - xmin) * xscale),
-                 '<g transform="scale(%s) translate(%s, %s) ">\n' % (scale, -xmin, -ymin)])
+             '<g transform="scale(%s) translate(%s, %s) ">\n' % (scale, -xmin, -ymin)])
 
         pixels = sorted(colors.D[1])
         Mx, My = pixels[-1]
@@ -286,11 +286,94 @@ def mat2display(pts, colors, row_labels=('x', 'y', 'u'),
         # Draw crosshairs centered at (0, 0)
         if crosshairs:
             h.writelines(
-                    ['<line x1="-50" y1="0" x2="50" y2="0" stroke="black" />\n',
-                     '<line x1="0" y1="-50" x2="0" y2="50" stroke="black" />\n',
-                     '<circle cx="0" cy="0" r="50" style="stroke: black; fill: none;" />\n'])
+                ['<line x1="-50" y1="0" x2="50" y2="0" stroke="black" />\n',
+                 '<line x1="0" y1="-50" x2="0" y2="50" stroke="black" />\n',
+                 '<circle cx="0" cy="0" r="50" style="stroke: black; fill: none;" />\n'])
 
         h.writelines(['</g></svg>\n', '</body>\n', '</html>\n'])
+
+    openinbrowser('file://%s' % hpath, browser)
+    print("Hit Enter once the image is displayed.... ", end="")
+    input()
+
+
+def mat2svg(pts, colors, row_labels=('x', 'y', 'u'),
+            scale=1, xscale=None, yscale=None, xmin=0, ymin=0, xmax=None, ymax=None,
+            crosshairs=False):
+    if xscale == None: xscale = scale
+    if yscale == None: yscale = scale
+
+    rx, ry, ru = row_labels
+
+    if ymin is None:
+        ymin = min(v for (k, v) in pts.f.items() if k[0] == ry)
+    if xmin is None:
+        xmin = min(v for (k, v) in pts.f.items() if k[0] == rx)
+    if ymax is None:
+        ymax = max(v for (k, v) in pts.f.items() if k[0] == ry)
+    if xmax is None:
+        xmax = max(v for (k, v) in pts.f.items() if k[0] == rx)
+
+    # Include (0, 0) in the region
+    if crosshairs:
+        ymin = min(ymin, 0)
+        xmin = min(xmin, 0)
+        ymax = max(ymax, 0)
+        xmax = max(xmax, 0)
+
+    h = ['<svg height="%s" width="%s" xmlns="http://www.w3.org/2000/svg">\n' % (
+        (ymax - ymin) * yscale, (xmax - xmin) * xscale) +
+         '<g transform="scale(%s) translate(%s, %s) ">\n' % (scale, -xmin, -ymin)]
+
+    pixels = sorted(colors.D[1])
+    Mx, My = pixels[-1]
+
+    # go through the quads, writing each one to canvas
+    for l in pixels:
+        lx, ly = l
+        r = _color_int(colors[('r', l)])
+        g = _color_int(colors[('g', l)])
+        b = _color_int(colors[('b', l)])
+
+        mx = min(lx + 1, Mx) + 1
+        my = min(ly + 1, My) + 1
+
+        # coords of corners
+        x0 = pts[(rx, l)]
+        y0 = pts[(ry, l)]
+        x1 = pts[(rx, (mx, ly))]
+        y1 = pts[(ry, (mx, ly))]
+        x2 = pts[(rx, (mx, my))]
+        y2 = pts[(ry, (mx, my))]
+        x3 = pts[(rx, (lx, my))]
+        y3 = pts[(ry, (lx, my))]
+
+        h.append('<polygon points="%s, %s %s, %s, %s, %s %s, %s" fill="rgb(%s, %s, %s)" stroke="none" />\n'
+                 % (x0, y0, x1, y1, x2, y2, x3, y3, r, g, b))
+
+    h.append('</g></svg>\n')
+
+    return "".join(h)
+
+
+def svglist2display(pts, colors_1, colors_2, row_labels=('x', 'y', 'u'),
+                    scale=1, xscale=None, yscale=None, xmin=0, ymin=0, xmax=None, ymax=None,
+                    crosshairs=False, browser=None):
+    hpath = _create_temp('.html')
+
+    with open(hpath, 'w') as h:
+        h.writelines(
+            ['<!DOCTYPE html>\n',
+             '<head> <title>image</title> </head>\n',
+             '<body>\n',
+             ])
+
+        for convex in range(0, 11, 1):
+            h.writelines(mat2svg(pts, convex/10 * colors_1 + (1 - convex/10) * colors_2, row_labels,
+                                 scale, xscale, yscale, xmin, ymin, xmax, ymax,
+                                 crosshairs))
+
+        h.writelines(['</body>\n', '</html>\n'])
 
     openinbrowser('file://%s' % hpath, browser)
     print("Hit Enter once the image is displayed.... ", end="")
