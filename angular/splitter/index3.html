@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="x">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width">
+
+  <title>UI.Layout : holy grail demo</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="https://rawgithub.com/angular-ui/ui-layout/v1.0.5/ui-layout.css">
+  <style>
+  .html-back{
+  background : #eee url("http://placehold.it/400x300/eee/666&text=HTML") no-repeat center;
+
+}
+.css-back{
+  background : #eee url("http://placehold.it/400x300/eee/666&text=CSS") no-repeat center;
+
+}
+.js-back{
+  background : #eee url("http://placehold.it/400x300/eee/666&text=JS") no-repeat center;
+}
+
+.glyphicon-chevron-left,
+.glyphicon-chevron-right,
+.glyphicon-chevron-up,
+.glyphicon-chevron-down{
+  color: #aaa;
+}
+  </style>
+</head>
+
+<body>
+
+    <div ui-layout>
+      <div ui-layout-container class=" html-back" ></div>
+
+      <div ui-layout-container>
+        <div ui-layout="{flow : 'column'}" >
+          <div ui-layout-container class=" html-back" ></div>
+          <div ui-layout-container class=" js-back" ></div>
+          <div ui-layout-container class=" css-back" ></div>
+        </div>
+      </div>
+
+      <div ui-layout-container class=" css-back" ></div>
+    </div>
+
+  <!-- Le javascript -->
+  <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+  <script type="application/javascript" src="https://rawgithub.com/angular-ui/ui-layout/v1.0.5/ui-layout.min.js"></script>
+  <script>
+    angular.module('x', ['ui.layout']);
+  </script>
+</body>
+
+</html>

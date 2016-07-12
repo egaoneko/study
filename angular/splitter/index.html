@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="sampleApp">
+    <head>
+        <meta charset="utf-8">
+        <link href="./bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="./bower_components/angular-ui-layout/ui-layout.css" media="screen" type="text/css">
+
+        <style>
+            .glyphicon-chevron-left,
+            .glyphicon-chevron-right,
+            .glyphicon-chevron-up,
+            .glyphicon-chevron-down{
+              color: #aaa;
+            }
+        </style>
+
+        <title></title>
+    </head>
+    <body>
+        <div ui-layout="{flow : 'row'}" ui-layout-loaded>
+            <div ui-layout-container>
+              <div ui-layout="{flow : 'column'}">
+                <div ui-layout-container size="70%" style="background : #eee;">
+                    <sdiv></sdiv>
+                    <sdiv></sdiv>
+                    <sdiv></sdiv>
+                </div>
+                <div ui-layout-container style="background : #eee;"></div>
+              </div>
+            </div>
+
+          <div ui-layout-container size="30%" style="background : #eee;"></div>
+        </div>
+
+        <script src="./bower_components/angular/angular.js"></script>
+        <script src="./bower_components/angular-ui-layout/ui-layout.js"></script>
+        <script src="./app.js"></script>
+    </body>
+</html>
