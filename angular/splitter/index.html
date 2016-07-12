@@ -16,20 +16,22 @@
 
         <title></title>
     </head>
-    <body>
-        <div ui-layout="{flow : 'row'}" ui-layout-loaded>
+    <body ng-controller="TestCtrl">
+        <div ui-layout="{flow : 'row'}">
             <div ui-layout-container>
               <div ui-layout="{flow : 'column'}">
                 <div ui-layout-container size="70%" style="background : #eee;">
-                    <sdiv></sdiv>
-                    <sdiv></sdiv>
-                    <sdiv></sdiv>
+                    <sdiv ng-repeat="i in range(50) track by $index" width="100px" height="100px"></sdiv>
                 </div>
-                <div ui-layout-container style="background : #eee;"></div>
+                <div ui-layout-container style="background : #eee;">
+                    <sdiv ng-repeat="i in range(20) track by $index" width="100px" height="100px"></sdiv>
+                </div>
               </div>
             </div>
 
-          <div ui-layout-container size="30%" style="background : #eee;"></div>
+          <div ui-layout-container size="30%" style="background : #eee;">
+                <sdiv ng-repeat="i in range(30) track by $index" width="100px" height="100px"></sdiv>
+          </div>
         </div>
 
         <script src="./bower_components/angular/angular.js"></script>

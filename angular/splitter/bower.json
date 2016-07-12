@@ -1,0 +1,22 @@
+{
+  "name": "splitter",
+  "homepage": "https://github.com/egaoneko/study",
+  "authors": [
+    "Donghyun Seo <egaoneko@naver.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular-ui-layout": "bower"
+  }
+}

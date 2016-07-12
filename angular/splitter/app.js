@@ -4,14 +4,15 @@ var app = angular.module('sampleApp', ['ui.layout']);
 
 app.directive('sdiv', function () {
     return {
-        template:'<div style="background : #fff; width:300px; height: 300px; margin : 10px;"><span>{{x}}, {{y}}, {{width}}, {{height}}</span></div>',
+        template:'<div style="background : #fff; width: {{width}}; height: {{height}}; margin : 10px; display:inline-block;"><span>x: {{x}}, <br>y: {{y}}</span></div>',
         restrict:"AE",
+        scope: {
+            width: "@",
+            height: "@"
+        },
         link: function (scope, element, attrs) {
             scope.x = offset(element).left;
             scope.y = offset(element).top;
-            scope.width = element[0].getBoundingClientRect().width;
-            scope.height = element[0].getBoundingClientRect().height;
-            console.dir(element[0].getBoundingClientRect());
 
             function offset(element) {
               var rawDomNode = element[0];
@@ -21,8 +22,14 @@ app.directive('sdiv', function () {
               var clientRect = rawDomNode.getBoundingClientRect();
               var x = clientRect.left + scrollX;
               var y = clientRect.top + scrollY;
-              return { left: x, top: y };
+              return { left: parseInt(x), top: parseInt(y) };
             }
         }
     }
 })
+
+app.controller("TestCtrl", ['$scope', function ($scope) {
+    $scope.range = function(n) {
+        return new Array(n);
+    };
+}])
