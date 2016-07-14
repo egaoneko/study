@@ -2,9 +2,9 @@
 
 var app = angular.module('sampleApp', ['ui.layout']);
 
-app.directive('pdiv', function ($timeout) {
+app.directive('pdiv', function ($log, $timeout) {
     return {
-        template:'<div style="background : #fff; width: {{width}}; height: {{height}}; margin : 10px; display:inline-block;"><span>x: {{x}}, <br>y: {{y}}</span></div>',
+        template:'<div class="box" style="width: {{width}}; height: {{height}};"><span>x: {{x}}, <br>y: {{y}}</span></div>',
         restrict:"AE",
         scope: {
             width: "@",
@@ -15,11 +15,24 @@ app.directive('pdiv', function ($timeout) {
                 var offsetXY = offset(element);
                 scope.x = offsetXY.left;
                 scope.y = offsetXY.top;
+
             });
 
             element.on('click', function () {
-                console.log(offset(element));
+                $log.debug(offset(element));
             })
+
+            var parentElement = element[0].parentElement;
+            scope.$watch(
+                function () {
+                    return [parentElement.offsetWidth, parentElement.offsetHeight].join('x');
+                },
+                function () {
+                    var offsetXY = offset(element);
+                    scope.x = offsetXY.left;
+                    scope.y = offsetXY.top;
+                }
+            )
 
             function offset(element) {
                 var rawDomNode = element[0];
