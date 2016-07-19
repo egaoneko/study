@@ -1,0 +1,127 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <style media="screen">
+        body {
+            background: 0 -100px repeat-x url(https://mdn.mozillademos.org/files/5415/bg_gallery.png) #4F191A;
+            margin: 10px;
+        }
+
+        img {
+            display: none;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        td {
+            padding: 15px;
+        }
+    </style>
+    <script type="text/javascript">
+        function draw() {
+
+            // drawing image example
+            var ctx1 = document.getElementById('drawImage').getContext('2d');
+            var img1 = new Image(); // Create new img element
+            img1.addEventListener("load", function() {
+                // execute drawImage statements here
+                ctx1.drawImage(img1, 0, 0);
+                ctx1.beginPath();
+                ctx1.moveTo(30, 96);
+                ctx1.lineTo(70, 66);
+                ctx1.lineTo(103, 76);
+                ctx1.lineTo(170, 15);
+                ctx1.stroke();
+            }, false);
+            img1.src = 'https://mdn.mozillademos.org/files/5395/backdrop.png'; // Set source path
+
+            // scaling example
+            var ctx2 = document.getElementById('scaling').getContext('2d');
+            var img2 = new Image(); // Create new img element
+            img2.onload = function() {
+                for (var i = 0; i < 4; i++) {
+                    for (var j = 0; j < 3; j++) {
+                        ctx2.drawImage(img2, j * 50, i * 38, 50, 38);
+                    }
+                }
+                // ctx.drawImage(img2, 0, 0);
+            };
+            img2.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+
+            // slicing example
+            var ctx3 = document.getElementById('slicing').getContext('2d');
+            // Draw slice
+            ctx3.drawImage(document.getElementById('source'),
+                33, 71, 104, 124, 21, 20, 87, 104);
+
+            // Draw frame
+            ctx3.drawImage(document.getElementById('frame'), 0, 0);
+
+            // Last example
+            // Loop through all images
+            for (var i = 0; i < document.images.length; i++) {
+
+                // Don't add a canvas for the frame image
+                if (document.images[i].getAttribute('id') != 'frame'
+            && document.images[i].getAttribute('id') != 'source') {
+
+                    // Create canvas element
+                    canvas = document.createElement('canvas');
+                    canvas.setAttribute('width', 132);
+                    canvas.setAttribute('height', 150);
+
+                    // Insert before the image
+                    document.images[i].parentNode.insertBefore(canvas, document.images[i]);
+
+                    ctx = canvas.getContext('2d');
+
+                    // Draw image to canvas
+                    ctx.drawImage(document.images[i], 15, 20);
+
+                    // Add frame
+                    ctx.drawImage(document.getElementById('frame'), 0, 0);
+                }
+            }
+            // ctx.mozImageSmoothingEnabled = false;
+            // ctx.webkitImageSmoothingEnabled = false;
+            // ctx.msImageSmoothingEnabled = false;
+            // ctx.imageSmoothingEnabled = false;
+        }
+    </script>
+    <style type="text/css">
+        .canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="draw();">
+    <canvas id="drawImage" class="canvas" width="150" height="150"></canvas>
+    <br>
+    <canvas id="scaling" class="canvas" width="150" height="150"></canvas>
+    <br>
+    <canvas id="slicing" class="canvas" width="150" height="150"></canvas>
+    <br>
+    <img id="source" src="https://mdn.mozillademos.org/files/5397/rhino.jpg" width="300" height="227">
+    <img id="frame" src="https://mdn.mozillademos.org/files/242/Canvas_picture_frame.png" width="132" height="150">
+    <br>
+    <table>
+        <tr>
+            <td><img src="https://mdn.mozillademos.org/files/5399/gallery_1.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5401/gallery_2.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5403/gallery_3.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5405/gallery_4.jpg"></td>
+        </tr>
+        <tr>
+            <td><img src="https://mdn.mozillademos.org/files/5407/gallery_5.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5409/gallery_6.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5411/gallery_7.jpg"></td>
+            <td><img src="https://mdn.mozillademos.org/files/5413/gallery_8.jpg"></td>
+        </tr>
+    </table>
+</body>
+
+</html>

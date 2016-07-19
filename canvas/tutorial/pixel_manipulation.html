@@ -1,0 +1,135 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="227" style="float:left"></canvas>
+    <br>
+
+    <div id="color" style="width:200px;height:50px;float:left"></div>
+    <br>
+
+    <canvas id="canvas2" width="300" height="227"></canvas>
+    <br>
+    <div>
+        <input id="grayscalebtn" value="Grayscale" type="button">
+        <input id="invertbtn" value="Invert" type="button">
+    </div>
+
+    <canvas id="canvas3" width="300" height="227"></canvas>
+    <canvas id="zoom" width="300" height="227"></canvas>
+    <div>
+        <label for="smoothbtn">
+
+            <input type="checkbox" name="smoothbtn" checked="checked" id="smoothbtn">Enable image smoothing
+        </label>
+    </div>
+
+    <script type="text/javascript">
+        var img = new Image();
+        img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+        };
+        var color = document.getElementById('color');
+
+        function pick(event) {
+            var x = event.layerX;
+            var y = event.layerY;
+            var pixel = ctx.getImageData(x, y, 1, 1);
+            var data = pixel.data;
+            var rgba = 'rgba(' + data[0] + ',' + data[1] +
+                ',' + data[2] + ',' + data[3] + ')';
+            color.style.background = rgba;
+            color.textContent = rgba;
+        }
+        canvas.addEventListener('mousemove', pick);
+
+        var img2 = new Image();
+        img2.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+        img2.onload = function() {
+            draw(this);
+        };
+
+        function draw(img) {
+            var canvas = document.getElementById('canvas2');
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+
+            var invert = function() {
+                for (var i = 0; i < data.length; i += 4) {
+                    data[i] = 255 - data[i]; // red
+                    data[i + 1] = 255 - data[i + 1]; // green
+                    data[i + 2] = 255 - data[i + 2]; // blue
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+
+            var grayscale = function() {
+                for (var i = 0; i < data.length; i += 4) {
+                    var avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                    data[i] = avg; // red
+                    data[i + 1] = avg; // green
+                    data[i + 2] = avg; // blue
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+
+            var invertbtn = document.getElementById('invertbtn');
+            invertbtn.addEventListener('click', invert);
+            var grayscalebtn = document.getElementById('grayscalebtn');
+            grayscalebtn.addEventListener('click', grayscale);
+        }
+
+        var img3 = new Image();
+        img3.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+        img3.onload = function() {
+            draw2(this);
+        };
+
+        function draw2(img) {
+            var canvas = document.getElementById('canvas3');
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var zoomctx = document.getElementById('zoom').getContext('2d');
+
+            var smoothbtn = document.getElementById('smoothbtn');
+            var toggleSmoothing = function(event) {
+                zoomctx.imageSmoothingEnabled = this.checked;
+                zoomctx.mozImageSmoothingEnabled = this.checked;
+                zoomctx.webkitImageSmoothingEnabled = this.checked;
+                zoomctx.msImageSmoothingEnabled = this.checked;
+            };
+            smoothbtn.addEventListener('change', toggleSmoothing);
+
+            var zoom = function(event) {
+                var x = event.layerX;
+                var y = event.layerY;
+                zoomctx.drawImage(canvas,
+                    Math.abs(x - 5),
+                    Math.abs(y - 5),
+                    10, 10,
+                    0, 0,
+                    200, 200);
+            };
+
+            canvas.addEventListener('mousemove', zoom);
+        }
+    </script>
+</body>
+
+</html>

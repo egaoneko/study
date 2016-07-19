@@ -76,3 +76,7 @@ out/
 
 # Mac
 .DS_Store
+
+# Lib
+bower_components
+libs

@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <script type="text/javascript">
+        function draw() {
+            var canvas = document.getElementById('bootstrap');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+
+                // canvas state example
+                ctx.fillRect(0, 0, 150, 150); // Draw a rectangle with default settings
+                ctx.save(); // Save the default state
+
+                ctx.fillStyle = '#09F'; // Make changes to the settings
+                ctx.fillRect(15, 15, 120, 120); // Draw a rectangle with new settings
+
+                ctx.save(); // Save the current state
+                ctx.fillStyle = '#FFF'; // Make changes to the settings
+                ctx.globalAlpha = 0.5;
+                ctx.fillRect(30, 30, 90, 90); // Draw a rectangle with new settings
+
+                ctx.restore(); // Restore previous state
+                ctx.fillRect(45, 45, 60, 60); // Draw a rectangle with restored settings
+
+                ctx.restore(); // Restore original state
+                ctx.fillRect(60, 60, 30, 30); // Draw a rectangle with restored settings
+            }
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="draw();">
+    <canvas id="bootstrap" class="col-lg-12 col-md-12 col-sm-12"></canvas>
+</body>
+
+</html>
