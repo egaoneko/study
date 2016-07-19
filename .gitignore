@@ -77,6 +77,11 @@ out/
 # Mac
 .DS_Store
 
+<<<<<<< HEAD
 # Lib
 bower_components
 libs
+=======
+# Bower
+bower_components
+>>>>>>> ec574062dd39e182066165b4341447ac01e47ee3

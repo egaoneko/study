@@ -6,6 +6,12 @@
         <link rel="stylesheet" href="./bower_components/angular-ui-layout/ui-layout.css" media="screen" type="text/css">
 
         <style>
+            .box {
+                background : #fff;
+                margin : 10px;
+                display:inline-block;
+            }
+
             .glyphicon-chevron-left,
             .glyphicon-chevron-right,
             .glyphicon-chevron-up,
@@ -16,21 +22,21 @@
 
         <title></title>
     </head>
-    <body ng-controller="TestCtrl">
+    <body ng-controller="UtilCtrl">
         <div ui-layout="{flow : 'row'}">
             <div ui-layout-container>
               <div ui-layout="{flow : 'column'}">
                 <div ui-layout-container size="70%" style="background : #eee;">
-                    <sdiv ng-repeat="i in range(50) track by $index" width="100px" height="100px"></sdiv>
+                    <pdiv ng-repeat="i in range(50) track by $index" width="70px" height="70px"></pdiv>
                 </div>
                 <div ui-layout-container style="background : #eee;">
-                    <sdiv ng-repeat="i in range(20) track by $index" width="100px" height="100px"></sdiv>
+                    <pdiv ng-repeat="i in range(20) track by $index" width="70px" height="70px"></pdiv>
                 </div>
               </div>
             </div>
 
           <div ui-layout-container size="30%" style="background : #eee;">
-                <sdiv ng-repeat="i in range(30) track by $index" width="100px" height="100px"></sdiv>
+            <pdiv ng-repeat="i in range(30) track by $index" width="70px" height="70px"></pdiv>
           </div>
         </div>
 

@@ -2,33 +2,54 @@
 
 var app = angular.module('sampleApp', ['ui.layout']);
 
-app.directive('sdiv', function () {
+app.directive('pdiv', function ($log, $timeout) {
     return {
-        template:'<div style="background : #fff; width: {{width}}; height: {{height}}; margin : 10px; display:inline-block;"><span>x: {{x}}, <br>y: {{y}}</span></div>',
+        template:'<div class="box" style="width: {{width}}; height: {{height}};"><span>x: {{x}}, <br>y: {{y}}</span></div>',
         restrict:"AE",
         scope: {
             width: "@",
             height: "@"
         },
         link: function (scope, element, attrs) {
-            scope.x = offset(element).left;
-            scope.y = offset(element).top;
+            $timeout(function(){
+                var offsetXY = offset(element);
+                scope.x = offsetXY.left;
+                scope.y = offsetXY.top;
+
+            });
+
+            element.on('click', function () {
+                $log.debug(offset(element));
+            })
+
+            var parentElement = element[0].parentElement;
+            scope.$watch(
+                function () {
+                    return [parentElement.offsetWidth, parentElement.offsetHeight].join('x');
+                },
+                function () {
+                    var offsetXY = offset(element);
+                    scope.x = offsetXY.left;
+                    scope.y = offsetXY.top;
+                }
+            )
 
             function offset(element) {
-              var rawDomNode = element[0];
-              var body = document.documentElement || document.body;
-              var scrollX = window.pageXOffset || body.scrollLeft;
-              var scrollY = window.pageYOffset || body.scrollTop;
-              var clientRect = rawDomNode.getBoundingClientRect();
-              var x = clientRect.left + scrollX;
-              var y = clientRect.top + scrollY;
-              return { left: parseInt(x), top: parseInt(y) };
+                var rawDomNode = element[0];
+                var clientRect = rawDomNode.getBoundingClientRect();
+
+                var body = document.documentElement || document.body;
+                var scrollX = window.pageXOffset || body.scrollLeft;
+                var scrollY = window.pageYOffset || body.scrollTop;
+                var x = clientRect.left + scrollX;
+                var y = clientRect.top + scrollY;
+                return { left: parseInt(x), top: parseInt(y) };
             }
         }
     }
 })
 
-app.controller("TestCtrl", ['$scope', function ($scope) {
+app.controller("UtilCtrl", ['$scope', function ($scope) {
     $scope.range = function(n) {
         return new Array(n);
     };
