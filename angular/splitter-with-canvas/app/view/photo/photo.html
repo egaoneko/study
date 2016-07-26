@@ -1,0 +1,37 @@
+<div ui-layout="{flow : 'row'}">
+    <div ui-layout-container>
+        <div ui-layout="{flow : 'column'}">
+            <div ui-layout-container size="70%" style="background : #eee;">
+                <photo-canvas></photo-canvas>
+            </div>
+            <div ui-layout-container style="background : #eee;">
+                <select ng-model="photoIndex" ng-change="changeImage(photoIndex)" style="margin:10px;">
+                  <option ng-repeat="photo in photos" value="{{$index}}">{{photo.name}}</option>
+                </select>
+
+                <table border="1" style="margin:10px; text-align:center;">
+                    <tr>
+                        <th style="text-align:center;">Properties</th>
+                        <th style="text-align:center;">Value</th>
+                    </tr>
+                    <tr>
+                        <td>X</td>
+                        <td>{{Window.windowX}}</td>
+                    </tr>
+                    <tr>
+                        <td>Y</td>
+                        <td>{{Window.windowY}}</td>
+                    </tr>
+                    <tr>
+                        <td>src</td>
+                        <td>{{Window.src}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div ui-layout-container size="30%" style="background : #eee;">
+    </div>
+</div>
