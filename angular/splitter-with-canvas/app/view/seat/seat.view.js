@@ -3,7 +3,8 @@
 angular.module('myApp.seatView', [
     'ngRoute',
     'ui.layout',
-    'seatCanvas'
+    'seatCanvas',
+    'core.seat'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -13,6 +14,14 @@ angular.module('myApp.seatView', [
   });
 }])
 
-.controller('SeatViewCtrl', [function() {
-
+.controller('SeatViewCtrl', ['$scope', 'SelectedSeat', function($scope, SelectedSeat) {
+    $scope.seat = SelectedSeat.seat;
+    $scope.$watch(
+        function() {
+            return SelectedSeat.seat.id;
+        },
+        function() {
+            $scope.seat = SelectedSeat.seat;
+        }
+    )
 }]);

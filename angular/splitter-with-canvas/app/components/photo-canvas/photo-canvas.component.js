@@ -14,9 +14,10 @@ angular
 function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
     var self = this;
     var parentElement = $element[0].parentElement;
+    var windowPadding = 8;
 
-    this.width = parentElement.offsetWidth - 8;
-    this.height = parentElement.offsetHeight - 8;
+    this.width = parentElement.offsetWidth - windowPadding;
+    this.height = parentElement.offsetHeight - windowPadding;
     this.canvas = document.getElementsByTagName('canvas')[0];
 
     var photo = new Image(); // 화면에 보여질 사진
@@ -31,8 +32,8 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
 
     // 사진 로드 후 화면 출력
     $timeout(function() {
-        self.width = parentElement.offsetWidth - 8;
-        self.height = parentElement.offsetHeight - 8;
+        self.width = parentElement.offsetWidth - windowPadding;
+        self.height = parentElement.offsetHeight - windowPadding;
         photo.addEventListener('load', draw, false);
         photo.src = Window.src;
     });
@@ -54,8 +55,8 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
             return [parentElement.offsetWidth, parentElement.offsetHeight].join('x');
         },
         function() {
-            self.canvas.width = parentElement.offsetWidth - 8;
-            self.canvas.height = parentElement.offsetHeight - 8;
+            self.canvas.width = parentElement.offsetWidth - windowPadding;
+            self.canvas.height = parentElement.offsetHeight - windowPadding;
             draw();
         }
     )
@@ -69,7 +70,7 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
                 windowY = Window.windowY,
                 centerX = Math.floor(windowX + self.canvas.width / 2),
                 centerY = Math.floor(windowY + self.canvas.height / 2),
-                currentScale = Math.floor(Window.currentScale * 100)/100,
+                currentScale = Window.currentScale.toFixed(2),
                 canvasWidth = self.canvas.width,
                 canvasHeight = self.canvas.height;
 

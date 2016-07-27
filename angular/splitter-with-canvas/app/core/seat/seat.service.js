@@ -14,4 +14,14 @@ angular
                 }
             });
         }
-    ]);
+    ])
+    .factory('SelectedSeat', function() {
+        return {
+            seat: {
+                "col": "empty",
+                "id": "empty",
+                "status": "empty",
+                "row": "empty"
+            }
+        };
+    });
