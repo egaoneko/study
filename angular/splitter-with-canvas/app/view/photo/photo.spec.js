@@ -2,18 +2,18 @@
 
 describe('myApp.photoView module', function() {
 
-  beforeEach(module('myApp.photoView'));
+    beforeEach(module('myApp.photoView'));
 
-  describe('photo view controller', function(){
+    describe('photo view controller', function() {
 
-    it('should ....', inject(function($rootScope, $controller) {
-      //spec body
-      var scope = $rootScope.$new();
-      var photoViewCtrl = $controller('PhotoViewCtrl', {
-          $scope : scope
-      });
-      expect(photoViewCtrl).toBeDefined();
-    }));
+        it('should ....', inject(function($rootScope, $controller) {
+            //spec body
+            var scope = $rootScope.$new();
+            var photoViewCtrl = $controller('PhotoViewCtrl', {
+                $scope: scope
+            });
+            expect(photoViewCtrl).toBeDefined();
+        }));
 
-  });
+    });
 });

@@ -6,9 +6,12 @@ describe('myApp.seatView module', function() {
 
   describe('seat view controller', function(){
 
-    it('should ....', inject(function($controller) {
+    it('should ....', inject(function($rootScope, $controller) {
       //spec body
-      var seatViewCtrl = $controller('SeatViewCtrl');
+      var scope = $rootScope.$new();
+      var seatViewCtrl = $controller('SeatViewCtrl', {
+          $scope : scope
+      });
       expect(seatViewCtrl).toBeDefined();
     }));
 

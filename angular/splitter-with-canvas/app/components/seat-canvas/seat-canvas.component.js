@@ -1,5 +1,16 @@
 'use strict';
 
+angular
+    .module('seatCanvas')
+    .component('seatCanvas', {
+        bindings: {
+            width: '@',
+            height: '@'
+        },
+        templateUrl: 'components/seat-canvas/seat-canvas.template.html',
+        controller: CanvasController
+    });
+
 function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, SelectedSeat) {
     var self = this;
     var parentElement = $element[0].parentElement;
@@ -63,8 +74,8 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
             ctx.globalAlpha = 1;
             ctx.lineWidth = 3;
             ctx.strokeStyle = "red";
-            ctx.strokeRect(Math.floor(mouseX/50)*50+10,
-            Math.floor(mouseY/50)*50+10, size, size);
+            ctx.strokeRect(Math.floor(mouseX / 50) * 50 + 10,
+                Math.floor(mouseY / 50) * 50 + 10, size, size);
             SelectedSeat.seat = seat;
             $scope.$apply();
         }
@@ -102,14 +113,3 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
         draw();
     };
 }
-
-angular
-    .module('seatCanvas')
-    .component('seatCanvas', {
-        bindings: {
-            width: '@',
-            height: '@'
-        },
-        templateUrl: 'components/seat-canvas/seat-canvas.template.html',
-        controller: CanvasController
-    });

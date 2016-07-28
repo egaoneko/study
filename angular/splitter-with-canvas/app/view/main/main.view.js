@@ -12,5 +12,4 @@ angular.module('myApp.mainView', [
     });
 }])
 
-.controller('MainViewCtrl', [function() {
-}]);
+.controller('MainViewCtrl', [function() {}]);

@@ -3,14 +3,25 @@
 describe('Seat', function() {
     var $httpBackend;
     var Seat;
-    var seatsData = [
-        {row: 1, col:1},
-        {row: 1, col:2},
-        {row: 1, col:3},
-        {row: 2, col:1},
-        {row: 2, col:2},
-        {row: 2, col:3},
-    ];
+    var seatsData = [{
+        row: 1,
+        col: 1
+    }, {
+        row: 1,
+        col: 2
+    }, {
+        row: 1,
+        col: 3
+    }, {
+        row: 2,
+        col: 1
+    }, {
+        row: 2,
+        col: 2
+    }, {
+        row: 2,
+        col: 3
+    }, ];
 
     beforeEach(function() {
         jasmine.addCustomEqualityTester(angular.equals);

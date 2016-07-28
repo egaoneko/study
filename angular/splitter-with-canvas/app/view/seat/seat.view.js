@@ -8,10 +8,10 @@ angular.module('myApp.seatView', [
 ])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/seat', {
-    templateUrl: 'view/seat/seat.html',
-    controller: 'SeatViewCtrl'
-  });
+    $routeProvider.when('/seat', {
+        templateUrl: 'view/seat/seat.html',
+        controller: 'SeatViewCtrl'
+    });
 }])
 
 .controller('SeatViewCtrl', ['$scope', 'SelectedSeat', function($scope, SelectedSeat) {
