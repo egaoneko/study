@@ -105,9 +105,6 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
             ctx.save();
             drawMiniMap(ctx);
             ctx.restore();
-
-            // For firing $watch 
-            $scope.$apply();
         }
     }
 
@@ -222,6 +219,9 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
             Window.windowX = checkWindowXMinMax(windowX);
             Window.windowY = checkWindowYMinMax(windowY);
             draw();
+
+            // For firing $watch
+            $scope.$apply();
         }
 
         return false;
@@ -276,6 +276,9 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
         Window.windowX = checkWindowXMinMax(windowX);
         Window.windowY = checkWindowYMinMax(windowY);
         draw();
+
+        // For firing $watch
+        $scope.$apply();
     }
 
     self.canvas.onclick = function(e) {
@@ -300,6 +303,9 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
                 centerY = Math.floor(windowY - scaledWindowHeight / 2);
 
             setWerp(centerX, centerY, Window.currentScale);
+
+            // For firing $watch
+            $scope.$apply();
         }
     }
 

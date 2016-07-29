@@ -41,6 +41,8 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
         function() {
             self.canvas.width = parentElement.offsetWidth - 8;
             self.canvas.height = parentElement.offsetHeight - 8;
+            clickedMouseX = -1;
+            clickedMouseY = -1;
             draw();
         }
     )
