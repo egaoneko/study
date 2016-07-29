@@ -20,8 +20,13 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
     this.canvas = document.getElementsByTagName('canvas')[0];
     this.seats = Seat.query();
 
-    var mouseX = -1,
-        mouseY = -1;
+    var clickedMouseX = -1,
+        clickedMouseY = -1;
+
+
+    var movedMouseX = -1,
+        movedMouseY = -1,
+        seatInfo = undefined;
 
     $timeout(function() {
         self.seats.$promise.then(function() {
@@ -47,6 +52,7 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
                 canvasHeight = self.canvas.height,
                 size = 40;
 
+            ctx.globalAlpha = 1;
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
@@ -55,6 +61,14 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
                 drawSeat(ctx, value, size);
                 ctx.restore();
             })
+
+            if (SelectedSeat.seat) {
+                drawSelectedSeat(ctx, SelectedSeat.seat, size);
+            }
+
+            if (seatInfo) {
+                drawSeatInfo(ctx, seatInfo, size);
+            }
         }
     }
 
@@ -69,16 +83,42 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
         ctx.rect(startX, startY, size, size);
         ctx.fill();
 
-        if (seat.status == "AVAIL" && ctx.isPointInPath(mouseX, mouseY)) {
-            // self.canvas.cursor = 'pointer';
-            ctx.globalAlpha = 1;
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = "red";
-            ctx.strokeRect(Math.floor(mouseX / 50) * 50 + 10,
-                Math.floor(mouseY / 50) * 50 + 10, size, size);
-            SelectedSeat.seat = seat;
-            $scope.$apply();
+        if (seat.status == "AVAIL") {
+            if (ctx.isPointInPath(clickedMouseX, clickedMouseY)) {
+                // self.canvas.cursor = 'pointer';
+                SelectedSeat.seat = seat;
+                $scope.$apply();
+            }
+
+            if (ctx.isPointInPath(movedMouseX, movedMouseY)) {
+                seatInfo = seat;
+            }
         }
+    }
+
+    var drawSelectedSeat = function(ctx, seat, size) {
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(Math.floor(clickedMouseX / 50) * 50 + 10,
+            Math.floor(clickedMouseY / 50) * 50 + 10, size, size);
+    }
+
+    var drawSeatInfo = function(ctx, seat, size) {
+        var rowText = "Row: " + seat.row;
+        var colText = "Col: " + seat.col;
+        var xOffset = Math.floor(movedMouseX / 50);
+        var yOffset = Math.floor(movedMouseY / 50);
+        var startX = (movedMouseX % 50 == 0 ? xOffset - 1 : xOffset) * 50 + 20;
+        var startY = (movedMouseY % 50 == 0 ? yOffset - 1 : yOffset) * 50 + 20;
+
+        ctx.globalAlpha = 0.5;
+        ctx.lineWidth = 1;
+        ctx.fillStyle = "black";
+        ctx.fillRect(startX, startY, 80, 80);
+        ctx.fillStyle = "yellow";
+        ctx.fillText(rowText, startX + 10, startY + 10);
+        ctx.fillText(colText, startX + 10, startY + 20);
     }
 
     var getStyleFromStatus = function(status) {
@@ -108,8 +148,16 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
     }
 
     self.canvas.onclick = function(e) {
-        mouseX = e.clientX - self.canvas.offsetLeft;
-        mouseY = e.clientY - self.canvas.offsetTop;
+        clickedMouseX = e.clientX - self.canvas.offsetLeft;
+        clickedMouseY = e.clientY - self.canvas.offsetTop;
+        SelectedSeat.seat = undefined;
+        draw();
+    };
+
+    self.canvas.onmousemove = function(e) {
+        movedMouseX = e.clientX - self.canvas.offsetLeft;
+        movedMouseY = e.clientY - self.canvas.offsetTop;
+        seatInfo = undefined;
         draw();
     };
 }

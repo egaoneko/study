@@ -105,6 +105,9 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Window) {
             ctx.save();
             drawMiniMap(ctx);
             ctx.restore();
+
+            // For firing $watch 
+            $scope.$apply();
         }
     }
 
