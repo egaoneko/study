@@ -79,3 +79,4 @@ out/
 
 # Lib
 bower_components
+node_modules/
