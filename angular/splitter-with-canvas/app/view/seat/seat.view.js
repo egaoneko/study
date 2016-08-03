@@ -16,6 +16,11 @@ angular.module('myApp.seatView', [
 }])
 
 .controller('SeatViewCtrl', ['$scope', '$window', 'SelectedSeat', function($scope, $window, SelectedSeat) {
+    $scope.config = {
+        flow : 'row',
+        disableToggle: 'true',
+        dividerSize: 0
+      };
     $scope.seat = SelectedSeat.seat;
     $scope.$watch(
         function() {

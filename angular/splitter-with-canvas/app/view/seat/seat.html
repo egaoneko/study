@@ -1,11 +1,11 @@
-<div ui-layout="{flow : 'row'}">
+<div ui-layout="{flow : 'row', disableToggle:true}" >
     <div ui-layout-container>
         <div ui-layout="{flow : 'column'}">
-            <div ui-layout-container size="70%" style="background : #eee;">
+            <div ui-layout-container size="70%" min-size="70%" style="background : #eee;">
                 <!-- tl-canvas width="300" height="300"></tl-canvas-->
                 <seat-canvas></seat-canvas>
             </div>
-            <div ui-layout-container style="background : #fff;">
+            <div ui-layout-container size="30%" min-size="30%" style="background : #fff;">
                 <uib-tabset active="active">
                     <uib-tab index="0" heading="Static title">
                         <table border="1" style="margin:10px; text-align:center;">
@@ -45,6 +45,6 @@
         </div>
     </div>
 
-    <div ui-layout-container size="30%" style="background : #eee;">
+    <div ui-layout-container size="30%" min-size="30%" style="background : #eee;">
     </div>
 </div>
