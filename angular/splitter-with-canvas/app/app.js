@@ -4,6 +4,7 @@
 angular.module('myApp', [
     'ngRoute',
     'ui.layout',
+    'ui.bootstrap',
     'seatCanvas',
     'photoCanvas',
     'myApp.mainView',

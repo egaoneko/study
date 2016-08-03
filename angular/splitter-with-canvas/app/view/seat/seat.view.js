@@ -3,6 +3,7 @@
 angular.module('myApp.seatView', [
     'ngRoute',
     'ui.layout',
+    'ui.bootstrap',
     'seatCanvas',
     'core.seat'
 ])
@@ -14,7 +15,7 @@ angular.module('myApp.seatView', [
     });
 }])
 
-.controller('SeatViewCtrl', ['$scope', 'SelectedSeat', function($scope, SelectedSeat) {
+.controller('SeatViewCtrl', ['$scope', '$window', 'SelectedSeat', function($scope, $window, SelectedSeat) {
     $scope.seat = SelectedSeat.seat;
     $scope.$watch(
         function() {
@@ -24,4 +25,19 @@ angular.module('myApp.seatView', [
             $scope.seat = SelectedSeat.seat;
         }
     )
+
+    $scope.tabs = [
+    { title:'Dynamic Title 1', content:'Dynamic content 1' },
+    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+  ];
+
+  $scope.alertMe = function() {
+    setTimeout(function() {
+      $window.alert('You\'ve selected the alert tab!');
+    });
+  };
+
+  // $scope.model = {
+    // name: 'Tabs'
+  // };
 }]);
