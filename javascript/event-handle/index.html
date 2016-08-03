@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+        function canvasApp() {
+            var currentX = 0,
+                expandSize = 200,
+                expandSliceSize = 1,
+                expandLoopSize = parseInt(expandSize / expandSliceSize),
+                delay = 600,
+                delayLoopSize = delay / expandLoopSize,
+                isEventOn = true,
+                count = 0;
+            var canvas = document.getElementById('tutorial');
+
+            if (!canvas.getContext) {
+                return;
+            };
+            var ctx = canvas.getContext('2d');
+
+            var draw = function(x) {
+                ctx.fillStyle = "#ffffff";
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height * 0.5);
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                currentX = checkX(currentX);
+
+                ctx.lineTo(x, canvas.height * 0.5);
+                ctx.stroke();
+            }
+
+            canvas.onmousewheel = function(e) {
+                count ++;
+                if (!isEventOn) {
+                    return false;
+                }
+
+                var direction = 1,
+                    health = true;
+
+                if (e.wheelDelta > 0) {
+                    direction *= -1;
+                }
+
+                var slice = direction * expandSliceSize,
+                    expectedX = checkX(currentX + direction * expandSize);
+
+                setTimeout(function() {
+                    health = false;
+                    if (currentX != expectedX) {
+                        currentX = expectedX;
+                        draw(currentX);
+                    }
+                    isEventOn = true;
+                    console.log(count);
+                    count = 0;
+                    return;
+                }, delay)
+                isEventOn = false;
+
+                var random = Math.floor(Math.random()*10) ;
+                var occuredDelay = 0;
+                if (random == 3 || random == 6) {
+                    occuredDelay = 3000;
+                }
+                console.log(random == 3 || random == 6);
+                setTimeout(function() {
+                    for (var i = 0; i < expandLoopSize && health; i++) {
+                        setTimeout(function() {
+                            currentX += slice;
+                            draw(currentX);
+                        }, delayLoopSize)
+                    }
+                }, occuredDelay);
+
+            }
+
+            var checkX = function(x) {
+                if (x > canvas.width) {
+                    x = 0;
+                } else if (x < 0) {
+                    x = canvas.width;
+                }
+                return x;
+            }
+
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="canvasApp();">
+    <canvas id="tutorial" width="1000" height="500"></canvas>
+</body>
+
+</html>
