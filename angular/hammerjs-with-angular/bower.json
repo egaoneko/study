@@ -1,0 +1,22 @@
+{
+  "name": "hammerjs-with-angular",
+  "homepage": "https://github.com/egaoneko/study",
+  "authors": [
+    "Donghyun <egaoneko@naver.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "angular": "^1.5.8",
+    "AngularHammer": "ryanmullins-angular-hammer#2.1.10"
+  }
+}

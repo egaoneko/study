@@ -1,46 +1,53 @@
-<div ui-layout="{flow : 'row', disableToggle:true}" >
+<div ui-layout="{flow : 'row', disableToggle:true}">
     <div ui-layout-container size="70%" min-size="70%">
         <div ui-layout="{flow : 'column'}">
             <div ui-layout-container size="70%" min-size="70%" style="background : #eee;">
                 <!-- tl-canvas width="300" height="300"></tl-canvas-->
                 <seat-canvas></seat-canvas>
             </div>
-            <div ui-layout-container size="30%" min-size="30%" style="background : #fff;">
-                <uib-tabset active="active">
-                    <uib-tab index="0" heading="Static title">
-                        <table border="1" style="margin:10px; text-align:center;">
-                            <tr>
-                                <th style="text-align:center;">Properties</th>
-                                <th style="text-align:center;">Value</th>
-                            </tr>
-                            <tr>
-                                <td>id</td>
-                                <td>{{seat.id}}</td>
-                            </tr>
-                            <tr>
-                                <td>row</td>
-                                <td>{{seat.row}}</td>
-                            </tr>
-                            <tr>
-                                <td>col</td>
-                                <td>{{seat.col}}</td>
-                            </tr>
-                            <tr>
-                                <td>status</td>
-                                <td>{{seat.status}}</td>
-                            </tr>
-                        </table>
-                    </uib-tab>
-                    <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
-                        {{tab.content}}
-                    </uib-tab>
-                    <uib-tab index="3" select="alertMe()">
-                        <uib-tab-heading>
-                            <i class="glyphicon glyphicon-bell"></i> Alert!
-                        </uib-tab-heading>
-                        I've got an HTML heading, and a select callback. Pretty cool!
-                    </uib-tab>
-                </uib-tabset>
+
+            <div ui-layout-container size="30%" min-size="30%" style="background : #eee;">
+                <div class="col-lg-12">
+                    <table border="1" style="margin:10px; text-align:center;">
+                        <tr>
+                            <th style="text-align:center;">Properties</th>
+                            <th style="text-align:center;">Value</th>
+                        </tr>
+                        <tr>
+                            <td>id</td>
+                            <td>{{seat.id}}</td>
+                        </tr>
+                        <tr>
+                            <td>row</td>
+                            <td>{{seat.row}}</td>
+                        </tr>
+                        <tr>
+                            <td>col</td>
+                            <td>{{seat.col}}</td>
+                        </tr>
+                        <tr>
+                            <td>status</td>
+                            <td>{{seat.status}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-lg-12">
+                    <uib-tabset active="active" class="col-lg-offset-2 col-lg-8" style="height:300px; background : #fff;">
+                        <uib-tab index="0" heading="STab">
+                            Static content
+                        </uib-tab>
+                        <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" disable="tab.disabled">
+                            {{tab.content}}
+                        </uib-tab>
+                        <uib-tab index="3" select="alertMe()">
+                            <uib-tab-heading>
+                                <i class="glyphicon glyphicon-bell"></i> Alert!
+                            </uib-tab-heading>
+                            I've got an HTML heading, and a select callback. Pretty cool!
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+
             </div>
         </div>
     </div>

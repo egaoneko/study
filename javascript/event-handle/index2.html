@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+        function canvasApp() {
+
+            var origin = {
+                x: 100,
+                y: 300
+            }
+
+            var target = {
+                x: 800,
+                y: 700,
+            }
+
+            var delay = 5000;
+
+            var canvas = document.getElementById('tutorial');
+
+            if (!canvas.getContext) {
+                return;
+            };
+            var ctx = canvas.getContext('2d');
+
+            var refresh = function() {
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            var draw = function(time, origin, target) {
+                var sTime = Date.now();
+
+                var timerId = setInterval(function() {
+                    var timeDiff = Date.now() - sTime;
+                    if (timeDiff < time) {
+                        drawLine(time, timeDiff, origin, target);
+                    } else {
+                        clearInterval(timerId);
+                    }
+                }, 10);
+            }
+
+            var drawLine = function(time, cTime, origin, target) {
+                var targetX = origin.x + (target.x - origin.x) / time * cTime;
+                var targetY = origin.y + (target.y - origin.y) / time * cTime;
+
+                refresh();
+                ctx.beginPath();
+                ctx.moveTo(origin.x, origin.y);
+                ctx.lineTo(targetX, targetY);
+                ctx.stroke();
+            }
+
+            document.onkeydown = function(e) {
+
+                e = e ? e : window.event;
+
+                switch (e.keyCode) {
+                    case 76:
+                        draw(delay, origin, target);
+                        break;
+                }
+
+            }
+
+            refresh();
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="canvasApp();">
+    <canvas id="tutorial" width="1000" height="1000"></canvas>
+</body>
+
+</html>

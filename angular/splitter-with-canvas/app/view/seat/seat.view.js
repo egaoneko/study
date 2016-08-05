@@ -32,8 +32,8 @@ angular.module('myApp.seatView', [
     )
 
     $scope.tabs = [
-    { title:'Dynamic Title 1', content:'Dynamic content 1' },
-    { title:'Dynamic Title 2', content:'Dynamic content 2', disabled: true }
+    { title:'Dy Tab 1', content:'Dynamic content 1' },
+    { title:'Dy Tab 2', content:'Dynamic content 2', disabled: true }
   ];
 
   $scope.alertMe = function() {
