@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>Canvas tutorial</title>
+    <script type="text/javascript">
+        function canvasApp() {
+
+            var canvas = document.getElementById('tutorial');
+
+            if (!canvas.getContext) {
+                return;
+            };
+
+            var box = new Box();
+            var drawer = new Drawer(canvas);
+            var opt = {
+                x : canvas.width * 0.5 - 100 * 0.5,
+                y : canvas.height * 0.5 - 100 * 0.5,
+                minX : 0,
+                minY : 0,
+                maxX : canvas.width,
+                maxY : canvas.height,
+                drawer : drawer
+            }
+
+            box.init(opt);
+            drawer.refresh();
+            setEvents(canvas, box);
+            box.draw();
+        }
+    </script>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body onload="canvasApp();">
+    <canvas id="tutorial" width="1000" height="1000"></canvas>
+    <script type="text/javascript" src="./bower_components/hammerjs/hammer.js"></script>
+    <script type="text/javascript" src="./events.js"></script>
+    <script type="text/javascript" src="./models.js"></script>
+    <script type="text/javascript" src="./drawer.js"></script>
+</body>
+
+</html>
