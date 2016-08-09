@@ -15,13 +15,17 @@ angular
             });
         }
     ])
-    .factory('SelectedSeat', function() {
+    .factory('SelectedSeat', ['$rootScope', function($rootScope) {
         return {
             seat: {
                 "col": "empty",
                 "id": "empty",
                 "status": "empty",
                 "row": "empty"
+            },
+            save: function(seat) {
+                this.seat = seat;
+                $rootScope.$broadcast('seat:updated', seat);
             }
         };
-    });
+    }]);

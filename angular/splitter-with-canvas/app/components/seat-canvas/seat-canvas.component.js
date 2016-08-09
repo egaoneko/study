@@ -88,8 +88,8 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
         if (seat.status == "AVAIL") {
             if (ctx.isPointInPath(clickedMouseX, clickedMouseY)) {
                 // self.canvas.cursor = 'pointer';
-                SelectedSeat.seat = seat;
-                $scope.$apply();
+                SelectedSeat.save(seat);
+                // $scope.$apply();
             }
 
             if (ctx.isPointInPath(movedMouseX, movedMouseY)) {
@@ -152,7 +152,7 @@ function CanvasController($scope, $element, $attrs, $timeout, $log, Seat, Select
     self.canvas.onclick = function(e) {
         clickedMouseX = e.clientX - self.canvas.offsetLeft;
         clickedMouseY = e.clientY - self.canvas.offsetTop;
-        SelectedSeat.seat = undefined;
+        SelectedSeat.save(undefined);
         draw();
     };
 
