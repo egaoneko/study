@@ -11,6 +11,10 @@
             $scope.amp = 'amp';
             $scope.equal = 'equal';
             $scope.less = 'less';
+            $scope.lessObject = {
+                name: "lessObject"
+            };
+
             $scope.ampFuncCtrl = function(amp) {
                 alert(amp);
             }
@@ -80,15 +84,17 @@
                 '<h3><span>{{$ctrl.at}}</span><input type="text" ng-model="$ctrl.at"></h3>',
                 '<h3><button ng-click="$ctrl.ampFunc()">amp</button></h3>',
                 '<h3><span>{{$ctrl.equal}}</span><input type="text" ng-model="$ctrl.equal"></h3>',
-                '<h3><span>{{$ctrl.less}}</span><input type="text" ng-model="$ctrl.less"></h3>'
+                '<h3><span>{{$ctrl.less}}</span><input type="text" ng-model="$ctrl.less"></h3>',
+                '<h3><span>{{$ctrl.lessObject.name}}</span><input type="text" ng-model="$ctrl.lessObject.name"></h3>'
             ].join(''),
             // restrict: "AE",
             controller: "demoSubCtrl",
             bindings: {
                 at: "@",
-                less: "<",
                 ampFunc: "&",
-                equal: "="
+                equal: "=",
+                less: "<",
+                lessObject: "<"
             }
         });
     </script>
@@ -101,6 +107,7 @@
     <input type="text" ng-model="amp"> <span>expression in the context of the parent scope</span><br>
     <input type="text" ng-model="equal"> <span>bidirectional binding</span><br>
     <input type="text" ng-model="less"> <span>one-way (one-directional) binding</span><br>
+    <input type="text" ng-model="lessObject.name"> <span>one-way (one-directional) binding(by object)</span><br>
     <hr>
 
     <div ng-controller="demoCtrl2 as ctrl2">
@@ -125,7 +132,8 @@
 
     <h1>Comp1</h1>
     <!-- div comp at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal" --></div>
-    <comp at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal" less="less"></comp>
+    <comp at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal"
+        less="less" less-object="lessObject"></comp>
     <hr>
 </body>
 
