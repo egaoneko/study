@@ -1,0 +1,132 @@
+<!doctype html>
+<html ng-app="sampleApp">
+
+<head>
+    <title>My Angular App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module('sampleApp', []).
+        controller('demoCtrl1', ['$scope', function($scope) {
+            $scope.at = 'at';
+            $scope.amp = 'amp';
+            $scope.equal = 'equal';
+            $scope.less = 'less';
+            $scope.ampFuncCtrl = function(amp) {
+                alert(amp);
+            }
+        }]).
+        controller('demoCtrl2', function() {
+            this.at = 'at';
+            this.amp = 'amp';
+            this.equal = 'equal';
+            this.ampFuncCtrl = function(amp) {
+                alert(amp);
+            }
+        }).
+        controller('demoSubCtrl', function() {
+        }).
+        directive('dirc1', function() {
+            return {
+                template: [
+                    '<h3><span>{{at}}</span><input type="text" ng-model="at"></h3>',
+                    '<h3><button ng-click="ampFunc()">amp</button></h3>',
+                    '<h3><span>{{equal}}</span><input type="text" ng-model="equal"></h3>'
+                ].join(''),
+                restrict: "AE",
+                scope: {
+                    at: "@",
+                    ampFunc: "&",
+                    equal: "="
+                }
+            }
+        }).
+        directive('dirc2', function() {
+            return {
+                template: [
+                    '<h3><span>{{$ctrl.at}}</span><input type="text" ng-model="$ctrl.at"></h3>',
+                    '<h3><button ng-click="$ctrl.ampFunc()">amp</button></h3>',
+                    '<h3><span>{{$ctrl.equal}}</span><input type="text" ng-model="$ctrl.equal"></h3>'
+                ].join(''),
+                restrict: "AE",
+                controller: "demoCtrl2",
+                controllerAs: "$ctrl",
+                // scope: {
+                    // at: "@",
+                    // ampFunc: "&",
+                    // equal: "="
+                // }
+            }
+        }).
+        directive('dirc3', function() {
+            return {
+                template: [
+                    '<h3><span>{{$ctrl.at}}</span><input type="text" ng-model="$ctrl.at"></h3>',
+                    '<h3><button ng-click="$ctrl.ampFunc()">amp</button></h3>',
+                    '<h3><span>{{$ctrl.equal}}</span><input type="text" ng-model="$ctrl.equal"></h3>'
+                ].join(''),
+                restrict: "AE",
+                controller: "demoSubCtrl",
+                controllerAs: "$ctrl",
+                scope: {},
+                bindToController: {
+                    at: "@",
+                    ampFunc: "&",
+                    equal: "="
+                }
+            }
+        }).
+        component('comp', {
+            template: [
+                '<h3><span>{{$ctrl.at}}</span><input type="text" ng-model="$ctrl.at"></h3>',
+                '<h3><button ng-click="$ctrl.ampFunc()">amp</button></h3>',
+                '<h3><span>{{$ctrl.equal}}</span><input type="text" ng-model="$ctrl.equal"></h3>',
+                '<h3><span>{{$ctrl.less}}</span><input type="text" ng-model="$ctrl.less"></h3>'
+            ].join(''),
+            // restrict: "AE",
+            controller: "demoSubCtrl",
+            bindings: {
+                at: "@",
+                less: "<",
+                ampFunc: "&",
+                equal: "="
+            }
+        });
+    </script>
+</head>
+
+<body ng-controller="demoCtrl1">
+    <h1>Ctrl1</h1>
+    <span>Lets change!</span><br>
+    <input type="text" ng-model="at"> <span>local scope</span><br>
+    <input type="text" ng-model="amp"> <span>expression in the context of the parent scope</span><br>
+    <input type="text" ng-model="equal"> <span>bidirectional binding</span><br>
+    <input type="text" ng-model="less"> <span>one-way (one-directional) binding</span><br>
+    <hr>
+
+    <div ng-controller="demoCtrl2 as ctrl2">
+        <h1>Ctrl2</h1>
+        <input type="text" ng-model="ctrl2.at"><br>
+        <input type="text" ng-model="ctrl2.amp"><br>
+        <input type="text" ng-model="ctrl2.equal"><br>
+        <hr>
+    </div>
+
+    <h1>Dirc1</h1>
+    <div dirc1 at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal"></div>
+    <hr>
+
+    <h1>Dirc2</h1>
+    <div dirc2 at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal"></div>
+    <hr>
+
+    <h1>Dirc3</h1>
+    <div dirc3 at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal"></div>
+    <hr>
+
+    <h1>Comp1</h1>
+    <!-- div comp at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal" --></div>
+    <comp at="at" amp-func="ampFuncCtrl(amp, this)" equal="equal" less="less"></comp>
+    <hr>
+</body>
+
+</html>
