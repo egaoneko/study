@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    
+  </head>
+
+  <body>
+    <a href="index.html">home</a>
+    <h1>Canvas - <span id="time"></span></h1>
+    <button onclick="changeColor()">click</button>
+    <br>
+    <br>
+    
+    <canvas id="canvasOne" height="5000px" width="5000px">
+    </canvas>
+    
+    <script>
+      var sTime = Date.now();
+      var canvas = document.getElementById('canvasOne');
+      var ctx = canvas.getContext('2d');
+      var list = [];
+      for (var x = 0; x < 5000; x += 20) {
+          for (var y = 0; y < 5000; y += 20) {
+              var rect = {
+                x: x,
+                y: y,
+                height: 10,
+                width: 10,
+                fill: '#'+Math.round(0xffffff * Math.random()).toString(16)
+              }
+              list.push(rect);
+          }
+      }
+      
+      var timeDiff = Date.now() - sTime;
+      document.getElementById('time').textContent = timeDiff;
+      draw();
+      
+      function draw() {
+        for (var i=0; i<list.length; i++) {
+          ctx.save();
+          var rect = list[i];
+          ctx.fillStyle = rect.fill;
+          ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+          ctx.restore();
+        }
+      }
+      
+      var changeColor = function() {
+        list[0].fill = '#'+Math.round(0xffffff * Math.random()).toString(16);
+        draw();
+      }
+    </script>
+  </body>
+
+</html>

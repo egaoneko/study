@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+  <head>
+    <script data-require="angular.js@<2" data-semver="1.5.9" src="https://code.angularjs.org/1.5.8/angular.js"></script>
+    <script data-require="ui-router@1.0.0-alpha.5" data-semver="1.0.0-alpha.5" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+  </head>
+
+  <!-- index.html -->
+  <body>
+      <div ui-view></div>
+      <hr/>
+      <!-- We'll also add some navigation: -->
+      <a ui-sref="state1">State 1</a>
+      <a ui-sref="state2">State 2</a>
+      <a ui-sref="state3">State 3</a>
+      <a ui-sref="state4" href="#/state4">State 4</a>
+      <a href="#/state5">State 5</a>
+  </body>
+
+</html>

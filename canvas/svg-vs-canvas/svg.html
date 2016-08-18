@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    
+  </head>
+
+  <body>
+    <a href="index.html">home</a>
+    <h1>SVG - <span id="time"></span></h1>
+    <button onclick="changeColor()">click</button>
+    <br>
+    <br>
+    
+    <svg id="svgOne" height="5000px" width="5000px">
+    </svg>
+    
+    <script>
+      var sTime = Date.now();
+    
+      var svgns = "http://www.w3.org/2000/svg";
+      var list = [];
+      for (var x = 0; x < 5000; x += 20) {
+          for (var y = 0; y < 5000; y += 20) {
+              var rect = document.createElementNS(svgns, 'rect');
+              rect.setAttributeNS(null, 'x', x);
+              rect.setAttributeNS(null, 'y', y);
+              rect.setAttributeNS(null, 'height', '10');
+              rect.setAttributeNS(null, 'width', '10');
+              rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
+              list.push(rect);
+              document.getElementById('svgOne').appendChild(rect);
+          }
+      }
+      
+      var timeDiff = Date.now() - sTime;
+      document.getElementById('time').textContent = timeDiff;
+      
+      var changeColor = function() {
+        list[0].setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
+      }
+    </script>
+  </body>
+
+</html>
