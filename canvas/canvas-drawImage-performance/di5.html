@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <a href="index.html">home</a>
+    <input type="button" id="start" value="start">
+    <input type="text" id="move" placeholder="move">
+    <input type="text" id="scale" placeholder="scale">
+    
+    <h1>drawImage Performance - <span id="time"></span></h1>
+    <h1>drawImage(img,x,y) - <span id="time1"></span></h1>
+    <h1>drawImage(img,x,y,width,height) - <span id="time2"></span></h1>
+    <h1>drawImage(img,sx,sy,swidth,sheight,x,y,width,height) - <span id="time3"></span></h1>
+    <h1>drawImage(img,x,y) + setTransform(a,b,c,d,e,f) - <span id="time4"></span></h1>
+    
+    <canvas id="canvasOne" height="5000px" width="5000px">
+    </canvas>
+    
+    <script src="script.js"></script>
+  </body>
+
+</html>
