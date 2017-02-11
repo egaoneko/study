@@ -13,7 +13,7 @@ def getitem(M, k):
     >>> M[3,'a']
     0
     """
-    assert k[0] in M.D[0] and k[1] in M.D[1]
+    # assert k[0] in M.D[0] and k[1] in M.D[1]
     return M.f[k] if k in M.f else 0
 
 

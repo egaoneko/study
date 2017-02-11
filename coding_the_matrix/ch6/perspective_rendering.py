@@ -33,10 +33,12 @@ def pixel(x):
 def scale_down(x):
     return list2vec([x[0] / x[2], x[1] / x[2], 1])
 
+# 평행이동
 shifted_pts = [v + list2vec([1, 1, 8]) for v in pts]
 
 print(shifted_pts)
 
+# 축 변환
 x_pixels = 100
 y_pixels = 100
 
