@@ -27,16 +27,16 @@ def plot(L, scale=4, dot_size=3, browser=None):
     hpath = create_temp('.html')
     with open(hpath, 'w') as h:
         h.writelines(
-                ['<!DOCTYPE html>\n'
-                    , '<head>\n'
-                    , '<title>plot</title>\n'
-                    , '</head>\n'
-                    , '<body>\n'
-                    , '<svg height="420" width=420 xmlns="http://www.w3.org/2000/svg">\n'
-                    , '<line x1="0" y1="210" x2="420" y2="210"'
-                    , 'style="stroke:rgb(0,0,0);stroke-width:2"/>\n'
-                    , '<line x1="210" y1="0" x2="210" y2="420"'
-                    , 'style="stroke:rgb(0,0,0);stroke-width:2"/>\n'])
+            ['<!DOCTYPE html>\n'
+                , '<head>\n'
+                , '<title>plot</title>\n'
+                , '</head>\n'
+                , '<body>\n'
+                , '<svg height="420" width=420 xmlns="http://www.w3.org/2000/svg">\n'
+                , '<line x1="0" y1="210" x2="420" y2="210"'
+                , 'style="stroke:rgb(0,0,0);stroke-width:2"/>\n'
+                , '<line x1="210" y1="0" x2="210" y2="420"'
+                , 'style="stroke:rgb(0,0,0);stroke-width:2"/>\n'])
         for pt in L:
             if isinstance(pt, Number):
                 x, y = pt.real, pt.imag

@@ -33,16 +33,20 @@ def pixel(x):
 def scale_down(x):
     return list2vec([x[0] / x[2], x[1] / x[2], 1])
 
+
+# 평행이동
 shifted_pts = [v + list2vec([1, 1, 8]) for v in pts]
 
 print(shifted_pts)
 
+# 축 변환
 x_pixels = 100
 y_pixels = 100
 
 cb = [list2vec([1 / x_pixels, 0, 0]),
       list2vec([0, 1 / y_pixels, 0]),
       list2vec([0, 0, 1])]
+
 
 def vec2rep(veclist, v):
     print(veclist)
@@ -52,6 +56,7 @@ def vec2rep(veclist, v):
     print(veclist[2][2] * v)
     print((veclist[0][0] * v) + (veclist[1][1] * v) + (veclist[2][2] * v))
     return (veclist[0][0] * v) + (veclist[1][1] * v) + (veclist[2][2] * v)
+
 
 reps = [vec2rep(cb, v) for v in shifted_pts]
 print(reps)

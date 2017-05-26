@@ -369,7 +369,7 @@ def svglist2display(pts, colors_1, colors_2, row_labels=('x', 'y', 'u'),
              ])
 
         for convex in range(0, 11, 1):
-            h.writelines(mat2svg(pts, convex/10 * colors_1 + (1 - convex/10) * colors_2, row_labels,
+            h.writelines(mat2svg(pts, convex / 10 * colors_1 + (1 - convex / 10) * colors_2, row_labels,
                                  scale, xscale, yscale, xmin, ymin, xmax, ymax,
                                  crosshairs))
 

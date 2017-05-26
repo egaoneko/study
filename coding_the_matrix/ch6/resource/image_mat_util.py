@@ -21,18 +21,22 @@ import os
 import atexit
 import math
 
+
 # Round color coordinate to nearest int and clamp to [0, 255]
 def _color_int(col):
     return max(min(round(col), 255), 0)
+
 
 # utility conversions, between boxed pixel and flat pixel formats
 # the png library uses flat, we use boxed.
 def _boxed2flat(row):
     return [_color_int(x) for box in row for x in box]
 
+
 def _flat2boxed(row):
     # Note we skip every 4th element, thus eliminating the alpha channel
-    return [tuple(row[i:i+3]) for i in range(0, len(row), 4)]
+    return [tuple(row[i:i + 3]) for i in range(0, len(row), 4)]
+
 
 ## Image conversions
 def isgray(image):
@@ -45,29 +49,34 @@ def isgray(image):
     else:
         raise TypeError('Unrecognized image type')
 
+
 def color2gray(image):
     """ Converts a color image to grayscale """
     # we use HDTV grayscale conversion as per https://en.wikipedia.org/wiki/Grayscale
-    return [[int(0.2126*p[0] + 0.7152*p[1] + 0.0722*p[2]) for p in row]
-                                                          for row in image]
+    return [[int(0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]) for p in row]
+            for row in image]
+
 
 def gray2color(image):
     """ Converts a grayscale image to color """
-    return [[(p,p,p) for p in row] for row in image]
+    return [[(p, p, p) for p in row] for row in image]
 
-#extracting and combining color channels
+
+# extracting and combining color channels
 def rgbsplit(image):
     """ Converts an RGB image to a 3-element list of grayscale images, one for each color channel"""
-    return [[[pixel[i] for pixel in row] for row in image] for i in (0,1,2)]
+    return [[[pixel[i] for pixel in row] for row in image] for i in (0, 1, 2)]
 
-def rgpsplice(R,G,B):
-    return [[(R[row][col],G[row][col],B[row][col]) for col in range(len(R[0]))] for row in range(len(R))]
+
+def rgpsplice(R, G, B):
+    return [[(R[row][col], G[row][col], B[row][col]) for col in range(len(R[0]))] for row in range(len(R))]
+
 
 ## To and from files
 def file2image(path):
     """ Reads an image into a list of lists of pixel values (tuples with
         three values). This is a color image. """
-    (w, h, p, m) = png.Reader(filename = path).asRGBA() # force RGB and alpha
+    (w, h, p, m) = png.Reader(filename=path).asRGBA()  # force RGB and alpha
     return [_flat2boxed(r) for r in p]
 
 
@@ -80,7 +89,8 @@ def image2file(image, path):
         img = image
     with open(path, 'wb') as f:
         png.Writer(width=len(image[0]), height=len(image)).write(f,
-            [_boxed2flat(r) for r in img])
+                                                                 [_boxed2flat(r) for r in img])
+
 
 ## Display functions
 def image2display(image, browser=None):
@@ -95,7 +105,9 @@ def image2display(image, browser=None):
     print("Hit Enter once the image is displayed.... ", end="")
     input()
 
+
 _browser = None
+
 
 def setbrowser(browser=None):
     """ Registers the given browser and saves it as the module default.
@@ -126,14 +138,17 @@ def setbrowser(browser=None):
         webbrowser.register(browser, None, webbrowser.get(browser))
         _browser = browser
 
+
 def getbrowser():
     """ Returns the module's default browser """
     return _browser
+
 
 def openinbrowser(url, browser=None):
     if browser is None:
         browser = _browser
     webbrowser.get(browser).open(url)
+
 
 # Create a temporary file that will be removed at exit
 # Returns a path to the file
@@ -143,16 +158,19 @@ def _create_temp(suffix='', prefix='tmp', dir=None):
     _remove_at_exit(path)
     return path
 
+
 # Register a file to be removed at exit
 def _remove_at_exit(path):
     atexit.register(os.remove, path)
 
-def file2mat(path, row_labels = ('x', 'y', 'u')):
+
+def file2mat(path, row_labels=('x', 'y', 'u')):
     """input: a filepath to an image in .png format
     output: the pair (points, matrix) of matrices representing the image."""
     return image2mat(file2image(path), row_labels)
 
-def image2mat(img, row_labels = ('x', 'y', 'u')):
+
+def image2mat(img, row_labels=('x', 'y', 'u')):
     """ input: an image in list-of-lists format
         output: a pair (points, colors) of matrices representing the image.
         Note: The input list-of-lists can consist of either integers n [0, 255] for grayscale
@@ -161,13 +179,13 @@ def image2mat(img, row_labels = ('x', 'y', 'u')):
     h = len(img)
     w = len(img[0])
     rx, ry, ru = row_labels
-    ptsD = (set(row_labels), {(x,y) for x in range(w+1) for y in range(h+1)})
+    ptsD = (set(row_labels), {(x, y) for x in range(w + 1) for y in range(h + 1)})
     ptsF = {}
-    colorsD = ({'r', 'g', 'b'}, {(x,y) for x in range(w) for y in range(h)})
+    colorsD = ({'r', 'g', 'b'}, {(x, y) for x in range(w) for y in range(h)})
     colorsF = {}
-    for y in range(h+1):
-        for x in range(w+1):
-            pt = (x,y)
+    for y in range(h + 1):
+        for x in range(w + 1):
+            pt = (x, y)
             ptsF[(rx, pt)] = x
             ptsF[(ry, pt)] = y
             ptsF[(ru, pt)] = 1
@@ -182,8 +200,9 @@ def image2mat(img, row_labels = ('x', 'y', 'u')):
                 colorsF[('b', pt)] = blue
     return mat.Mat(ptsD, ptsF), mat.Mat(colorsD, colorsF)
 
-def mat2display(pts, colors, row_labels = ('x', 'y', 'u'),
-                scale=1, xscale=None, yscale = None, xmin=0, ymin=0, xmax=None, ymax=None,
+
+def mat2display(pts, colors, row_labels=('x', 'y', 'u'),
+                scale=1, xscale=None, yscale=None, xmin=0, ymin=0, xmax=None, ymax=None,
                 crosshairs=False, browser=None):
     """ input: matrix pts and matrix colors representing an image
         result: Displays the image in a web browser
@@ -228,15 +247,15 @@ def mat2display(pts, colors, row_labels = ('x', 'y', 'u'),
         ymax = max(ymax, 0)
         xmax = max(xmax, 0)
 
-
     hpath = _create_temp('.html')
     with open(hpath, 'w') as h:
         h.writelines(
             ['<!DOCTYPE html>\n',
-            '<head> <title>image</title> </head>\n',
-            '<body>\n',
-            '<svg height="%s" width="%s" xmlns="http://www.w3.org/2000/svg">\n' % ((ymax-ymin) * yscale, (xmax-xmin) * xscale),
-            '<g transform="scale(%s) translate(%s, %s) ">\n' % (scale, -xmin, -ymin)])
+             '<head> <title>image</title> </head>\n',
+             '<body>\n',
+             '<svg height="%s" width="%s" xmlns="http://www.w3.org/2000/svg">\n' % (
+                 (ymax - ymin) * yscale, (xmax - xmin) * xscale),
+             '<g transform="scale(%s) translate(%s, %s) ">\n' % (scale, -xmin, -ymin)])
 
         pixels = sorted(colors.D[1])
         Mx, My = pixels[-1]
@@ -248,8 +267,8 @@ def mat2display(pts, colors, row_labels = ('x', 'y', 'u'),
             g = _color_int(colors[('g', l)])
             b = _color_int(colors[('b', l)])
 
-            mx = min(lx+1, Mx)+1
-            my = min(ly+1, My)+1
+            mx = min(lx + 1, Mx) + 1
+            my = min(ly + 1, My) + 1
 
             # coords of corners
             x0 = pts[(rx, l)]
@@ -262,14 +281,14 @@ def mat2display(pts, colors, row_labels = ('x', 'y', 'u'),
             y3 = pts[(ry, (lx, my))]
 
             h.writelines(['<polygon points="%s, %s %s, %s, %s, %s %s, %s" fill="rgb(%s, %s, %s)" stroke="none" />\n'
-                         % (x0, y0, x1, y1, x2, y2, x3, y3, r, g, b)])
+                          % (x0, y0, x1, y1, x2, y2, x3, y3, r, g, b)])
 
         # Draw crosshairs centered at (0, 0)
         if crosshairs:
             h.writelines(
                 ['<line x1="-50" y1="0" x2="50" y2="0" stroke="black" />\n',
-                '<line x1="0" y1="-50" x2="0" y2="50" stroke="black" />\n',
-                '<circle cx="0" cy="0" r="50" style="stroke: black; fill: none;" />\n'])
+                 '<line x1="0" y1="-50" x2="0" y2="50" stroke="black" />\n',
+                 '<circle cx="0" cy="0" r="50" style="stroke: black; fill: none;" />\n'])
 
         h.writelines(['</g></svg>\n', '</body>\n', '</html>\n'])
 
