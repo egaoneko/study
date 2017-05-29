@@ -14,9 +14,11 @@ class App extends Component {
       d:'',
       e:'',
       f:'',
-      g:''
+      g:'',
+      val: 0
     };
     this.taUpdate = this.taUpdate.bind(this);
+    this.bUpdate = this.bUpdate.bind(this);
   }
 
   update (e) {
@@ -39,11 +41,21 @@ class App extends Component {
     });
   }
 
+  bUpdate (e) {
+    this.setState({val: this.state.val + 1});
+  }
+
+  componentWillMount() {
+    console.log('componentWillMount');
+    this.setState({m: 2});
+  }
+
   render() {
     // return (
     //     <h1> Hello World</h1> <b>Bold</b>
     // )
     let txt = this.props.txt;
+    console.log('render');
     return (
         <div>
             <h1>{txt}</h1>
@@ -112,8 +124,25 @@ class App extends Component {
               type="text"
               tUpdate={this.tUpdate.bind(this)}
             />ref wrap component {this.state.g}
+            <br/>
+            <button onClick={this.bUpdate}>{this.state.val * this.state.m}</button>
+            <br/>
+            <div id="props"></div>
+            <Props val={1} />
+            <br/>
+            <MapUse />
         </div>
     );
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount');
+    this.inc = setInterval(this.bUpdate, 2000);
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    clearInterval(this.inc);
   }
 }
 
@@ -153,6 +182,94 @@ class WarpInput extends React.Component {
   }
 }
 
+class Wrapper extends React.Component {
+  mount() {
+    ReactDOM.render(<App cat={4}/>, document.getElementById('a'));
+  }
+
+  unmount() {
+    ReactDOM.unmountComponentAtNode(document.getElementById('a'));
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.mount.bind(this)}>Mount</button>
+        <button onClick={this.unmount.bind(this)}>Unmount</button>
+        <div id="a"></div>
+      </div>
+    );
+  }
+}
+
+class Props extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      increasing : false,
+    };
+  }
+
+  update() {
+    ReactDOM.render(
+      <Props val={this.props.val + 1} />,
+      document.getElementById('props')
+    )
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({increasing: nextProps.val > this.props.val});
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0;
+  }
+
+  render() {
+    console.log(this.state.increasing);
+    return (
+      <button onClick={this.update.bind(this)}>{this.props.val}</button>
+    )
+  }
+}
+
+class MapUse extends React.Component {
+  constructor() {
+    super();
+    this.state = {items: []}
+  }
+
+  componentWillMount() {
+    fetch('http://swapi.co/api/people/?format=json')
+    .then(response => response.json())
+    .then(({results: items}) => this.setState({items}));
+  }
+
+  filter (e) {
+    this.setState({filter: e.target.value});
+  }
+
+  render() {
+    let items = this.state.items;
+
+    if(this.state.filter) {
+      items = items.filter( item =>
+        item.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+    }
+
+    return(
+      <div>
+        <input type="text" onChange={this.filter.bind(this)} />
+        {items.map(item =>
+          <Person key={item.name} person={item} />
+        )}
+      </div>
+    )
+  }
+}
+
+const Person = (props) => <h4>{props.person.name}</h4>
+
 Title.propTypes = {
   text(props, propName, component) {
     if(!(propName in props)){
@@ -168,4 +285,4 @@ Title.propTypes = {
 
 // const App = () => <h1>Hello World</h1>
 
-export default App;
+export default Wrapper;
