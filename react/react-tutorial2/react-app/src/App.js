@@ -131,6 +131,10 @@ class App extends Component {
             <Props val={1} />
             <br/>
             <MapUse />
+            <br/>
+            <HOCButton>button</HOCButton>
+            <br/>
+            <LabelHOC>label</LabelHOC>
         </div>
     );
   }
@@ -269,6 +273,50 @@ class MapUse extends React.Component {
 }
 
 const Person = (props) => <h4>{props.person.name}</h4>
+
+const HOC = (InnerConmponent) => class extends React.Component {
+  constructor() {
+    super();
+    this.state = {count: 0};
+  }
+
+  update() {
+    this.setState({count: this.state.count + 1})
+  }
+
+  componentWillMount() {
+    console.log('HOC will mount');
+  }
+
+  render(){
+    return(
+      <InnerConmponent
+        {...this.props}
+        {...this.state}
+        update={this.update.bind(this)}
+      />
+    )
+  }
+}
+
+const HOCButton = HOC((props) =>
+  <button onClick={props.update}>{props.children} - {props.count}</button>
+)
+class HOCLabel extends React.Component {
+
+
+  componentWillMount() {
+    console.log('HOC label will mount');
+  }
+
+  render() {
+    return(
+      <label onMouseMove={this.props.update}>{this.props.children} - {this.props.count}</label>
+    )
+  }
+}
+
+const LabelHOC = HOC(HOCLabel)
 
 Title.propTypes = {
   text(props, propName, component) {
