@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import './App.css'
 
 class App extends Component {
   constructor() {
@@ -15,7 +16,10 @@ class App extends Component {
       e:'',
       f:'',
       g:'',
-      val: 0
+      val: 0,
+      input: '/* add your jsx here */',
+      output: '',
+      err: ''
     };
     this.taUpdate = this.taUpdate.bind(this);
     this.bUpdate = this.bUpdate.bind(this);
@@ -39,6 +43,19 @@ class App extends Component {
       f: ReactDOM.findDOMNode(this.f).value,
       g: this.g.refs.input.value,
     });
+  }
+
+  talUpdate (e) {
+    let code = e.target.value;
+    try {
+      this.setState({
+        output: window.Babel.transform(code, {presets: ['es2015', 'react']})
+        .code,
+        err:''
+      })
+    } catch(err) {
+      this.setState({err: err.message})
+    }
   }
 
   bUpdate (e) {
@@ -135,6 +152,26 @@ class App extends Component {
             <HOCButton>button</HOCButton>
             <br/>
             <LabelHOC>label</LabelHOC>
+            <br/>
+            <header>{this.state.err}</header>
+            <div className="container">
+              <textarea
+              onChange={this.talUpdate.bind(this)}
+              defaultValue={this.state.input}/>
+              <pre>
+                {this.state.output}
+              </pre>
+            </div>
+            <br/>
+            <Parent>
+              <div className="childA"></div>
+              {/*<div className="childB"></div>*/}
+            </Parent>
+            <CButtons>
+              <button value="A">A</button>
+              <button value="B">B</button>
+              <button value="C">C</button>
+            </CButtons>
         </div>
     );
   }
@@ -317,6 +354,43 @@ class HOCLabel extends React.Component {
 }
 
 const LabelHOC = HOC(HOCLabel)
+
+class Parent extends React.Component {
+  render() {
+    // console.log(this.props.children);
+    // let items = this.props.children.map(child => child)
+    // let items = React.Children.map(this.props.children, child => child);
+    // let items = React.Children.toArray(this.props.children);
+    let items = React.Children.only(this.props.children);
+    console.log(items);
+    return null
+  }
+}
+
+class CButtons extends React.Component {
+  constructor() {
+    super();
+    this.state = {selected: 'None'}
+  }
+  selectItem(selected) {
+    this.setState({selected});
+  }
+  render() {
+    let fn = child =>
+      React.cloneElement(child, {
+        onClick: this.selectItem.bind(this, child.props.value)
+      })
+
+    let items = React.Children.map(this.props.children, fn);
+
+    return (
+      <div>
+        <h2>You have Selected: {this.state.selected}</h2>
+        {items}
+      </div>
+    )
+  }
+}
 
 Title.propTypes = {
   text(props, propName, component) {
